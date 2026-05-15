@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Placement Prep Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>💼 Placement Prep Dashboard</h1>
+
+    <!-- THEME BUTTON -->
+    <button onclick="toggleTheme()" class="theme-btn">
+      🌙
+    </button>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+      <div class="card">
+        <h3>Total Topics</h3>
+        <p id="totalTopics">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Completed Topics</h3>
+        <p id="completedTopics">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Coding Questions</h3>
+        <p id="totalQuestions">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Solved</h3>
+        <p id="solvedQuestions">0</p>
+      </div>
+    </div>
+
+    <!-- TOPICS SECTION -->
+    <h2>📚 Topics</h2>
+
+    <div class="input-section">
+      <input id="topicInput" placeholder="Add topic (e.g. Arrays)">
+
+      <button onclick="addTopic()" class="icon-btn">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+    </div>
+
+    <div id="topicList"></div>
+
+    <!-- FILTER -->
+    <h3>🔍 Filter Questions</h3>
+
+    <div class="filter-buttons">
+      <button onclick="setFilter('All')">All</button>
+      <button onclick="setFilter('Easy')">Easy</button>
+      <button onclick="setFilter('Medium')">Medium</button>
+      <button onclick="setFilter('Hard')">Hard</button>
+    </div>
+
+    <!-- QUESTIONS SECTION -->
+    <h2>🧠 Coding Questions</h2>
+
+    <div class="input-section">
+      <input id="qTitle" placeholder="Question title">
+
+      <select id="qDifficulty">
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+      </select>
+
+      <button onclick="addQuestion()" class="icon-btn">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+    </div>
+
+    <div id="questionList"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
