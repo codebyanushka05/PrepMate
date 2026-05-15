@@ -1,26 +1,80 @@
+/* ================= SIGNUP ================= */
+
+function signup() {
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
+
+  if (!user || !pass) {
+    document.getElementById("error").innerText = "Fill all fields";
+    return;
+  }
+
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if (users[user]) {
+    document.getElementById("error").innerText = "User already exists";
+    return;
+  }
+
+  users[user] = pass;
+  localStorage.setItem("users", JSON.stringify(users));
+
+  document.getElementById("error").innerText = "Account created! Now login 😌";
+}
+
+/* ================= LOGIN ================= */
+
+function login() {
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
+
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if (users[user] && users[user] === pass) {
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("currentUser", user);
+
+    window.location.href = "index.html";
+  } else {
+    document.getElementById("error").innerText = "Invalid credentials";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  let user = localStorage.getItem("currentUser");
+
+  if (user) {
+    document.getElementById("welcome").innerText = `Welcome, ${user} 😌`;
+  }
+});
+
+/* ================= LOGOUT ================= */
+
+function logout() {
+  localStorage.removeItem("loggedIn");
+  window.location.href = "login.html";
+}
+
+/* ================= DASHBOARD DATA ================= */
 
 let currentFilter = "All";
 
 let topics = JSON.parse(localStorage.getItem("topics")) || [];
 let questions = JSON.parse(localStorage.getItem("questions")) || [];
 
-/* ---------------- SAVE ---------------- */
-
+/* SAVE */
 function saveAll() {
   localStorage.setItem("topics", JSON.stringify(topics));
   localStorage.setItem("questions", JSON.stringify(questions));
 }
 
-/* ---------------- TOPICS ---------------- */
+/* ================= TOPICS ================= */
 
 function addTopic() {
   let input = document.getElementById("topicInput");
   if (!input.value.trim()) return;
 
-  topics.push({
-    name: input.value.trim(),
-    status: "Pending"
-  });
+  topics.push({ name: input.value.trim(), status: "Pending" });
 
   input.value = "";
   saveAll();
@@ -28,9 +82,7 @@ function addTopic() {
 }
 
 function toggleTopic(i) {
-  topics[i].status =
-    topics[i].status === "Pending" ? "Done" : "Pending";
-
+  topics[i].status = topics[i].status === "Pending" ? "Done" : "Pending";
   saveAll();
   renderTopics();
 }
@@ -56,7 +108,8 @@ function renderTopics() {
             ${t.status}
           </button>
 
-          <span class="material-symbols-outlined delete-icon" onclick="deleteTopic(${i})">
+          <span class="material-symbols-outlined delete-icon"
+            onclick="deleteTopic(${i})">
             delete
           </span>
         </div>
@@ -67,7 +120,7 @@ function renderTopics() {
   updateStats();
 }
 
-/* ---------------- QUESTIONS ---------------- */
+/* ================= QUESTIONS ================= */
 
 function setFilter(type) {
   currentFilter = type;
@@ -111,10 +164,7 @@ function renderQuestions() {
 
   questions.forEach((q, i) => {
 
-    // FILTER
-    if (currentFilter !== "All" && q.difficulty !== currentFilter) {
-      return;
-    }
+    if (currentFilter !== "All" && q.difficulty !== currentFilter) return;
 
     list.innerHTML += `
       <div class="item">
@@ -126,7 +176,8 @@ function renderQuestions() {
             ${q.status}
           </button>
 
-          <span class="material-symbols-outlined delete-icon" onclick="deleteTopic(${i})">
+          <span class="material-symbols-outlined delete-icon"
+            onclick="deleteQuestion(${i})">
             delete
           </span>
         </div>
@@ -137,7 +188,7 @@ function renderQuestions() {
   updateStats();
 }
 
-/* ---------------- STATS ---------------- */
+/* ================= STATS ================= */
 
 function updateStats() {
   let completedTopics = topics.filter(t => t.status === "Done").length;
@@ -150,31 +201,24 @@ function updateStats() {
   document.getElementById("solvedQuestions").innerText = solvedQuestions;
 }
 
-/* ---------------- THEME ---------------- */
+/* ================= THEME ================= */
 
 function toggleTheme() {
   document.body.classList.toggle("dark");
 
-  let btn = document.querySelector(".theme-btn");
-
   if (document.body.classList.contains("dark")) {
     localStorage.setItem("theme", "dark");
-    if (btn) btn.innerText = "☀️";
   } else {
     localStorage.setItem("theme", "light");
-    if (btn) btn.innerText = "🌙";
   }
 }
 
 /* LOAD THEME */
-let theme = localStorage.getItem("theme");
-
-if (theme === "dark") {
+if (localStorage.getItem("theme") === "dark") {
   document.body.classList.add("dark");
 }
 
-/* ---------------- INIT ---------------- */
-
+/* INIT */
 renderTopics();
 renderQuestions();
 updateStats();

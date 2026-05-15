@@ -13,14 +13,30 @@
 
 <body>
 
+  <h3 id="welcome"></h3>
+  
+  <script>
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html";
+  }
+</script>
+
   <div class="container">
+<div style="float:right; display:flex; gap:10px; align-items:center;">
 
-    <h1>💼 Placement Prep Dashboard</h1>
+  <span class="material-symbols-outlined theme-btn"
+        onclick="toggleTheme()">
+    dark_mode
+  </span>
 
-    <!-- THEME BUTTON -->
-    <button onclick="toggleTheme()" class="theme-btn">
-      🌙
-    </button>
+  <span class="material-symbols-outlined logout-icon"
+        onclick="logout()">
+    logout
+  </span>
+
+</div>
+
+<h1>💼 Placement Prep Dashboard</h1>
 
     <!-- DASHBOARD -->
     <div class="dashboard">
